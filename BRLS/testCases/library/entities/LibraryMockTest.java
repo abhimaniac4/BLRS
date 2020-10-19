@@ -29,6 +29,8 @@ class LibraryMockTest {
 	@Mock ILoanHelper mockLoanHelper;
 	
 	@Mock IPatron mockPatron;
+	@Mock ILoan mockLoan;
+	@Mock IBook mockBook;
 	
 	@InjectMocks
 	
@@ -68,6 +70,29 @@ class LibraryMockTest {
 		assertNotNull(patron); 
 		List<IPatron> pList = library.getPatronList();
 		assertTrue(pList.size() == 1);
+	}
+	
+	@Test 
+	void testDischargeLoan() {
+		//arrange
+		 String ln = "Doe";
+			String fn = "John";
+			String email = "jonedoe@gmail.com";
+			long phone = 123456789;
+			int id = 2;
+			int bookId = 1;
+			boolean isDamaged = false;
+					
+			when(mockLoan.getBook()).thenReturn(mockBook);
+			when(mockBook.getId()).thenReturn(bookId);
+			when(mockPatronHelper.makePatron(ln, fn, email, phone, id)).thenReturn(mockPatron);
+			when(mockLoan.getPatron()).thenReturn(mockPatron);
+
+		//act
+		 library.dischargeLoan(mockLoan, isDamaged);
+		//assert
+		 ILoan loan = library.getCurrentLoanByBookId(bookId);
+		 assertEquals(loan, mockLoan);
 	}
 
 }
