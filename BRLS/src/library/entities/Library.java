@@ -212,8 +212,8 @@ public class Library implements Serializable, ILibrary {
 		IPatron patron = loan.getPatron();
 		IBook book = loan.getBook();
 
-		double overDueFine = calculateOverDueFine(loan);
-		patron.incurFine(overDueFine);
+//		double overDueFine = calculateOverDueFine(loan);
+//		patron.incurFine(overDueFine);
 
 		Integer bookId = book.getId();
 		if (isDamaged) {
@@ -245,7 +245,6 @@ public class Library implements Serializable, ILibrary {
 		double fine = 0.0;
 		if (loan.isOverDue()) {
 			Date dueDate = loan.getDueDate();
-			Date current = Calendar.getInstance().getDate();
 			long daysOverDue = Calendar.getInstance().getDaysDifference(dueDate);
 			fine = daysOverDue * FINE_PER_DAY;
 		}
